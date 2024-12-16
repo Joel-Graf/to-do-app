@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { Lexend } from "next/font/google";
+import { library } from "@fortawesome/fontawesome-svg-core";
+import { faPlusCircle } from "@fortawesome/free-solid-svg-icons";
 import "./globals.css";
 
 const lexend = Lexend({
@@ -11,6 +13,8 @@ export const metadata: Metadata = {
   title: "To Do App",
   description: "It's a to-do app ;)",
 };
+
+library.add(faPlusCircle);
 
 export default function RootLayout({
   children,
