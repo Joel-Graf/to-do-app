@@ -5,12 +5,13 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlusCircle } from "@fortawesome/free-solid-svg-icons";
 import TaskCard from "./components/TaskCard/TaskCard";
 import { useState } from "react";
+import { Task } from "./utils/definitions";
 
 export default function Home() {
-  const [data, setData] = useState([
-    { id: 1, task: "teste", status: "completed" },
-    { id: 2, task: "teste2", status: "pending" },
-    { id: 3, task: "teste3", status: "completed" },
+  const [data, setData] = useState<Task[]>([
+    { id: 1, description: "teste", status: "completed" },
+    { id: 2, description: "teste2", status: "pending" },
+    { id: 3, description: "teste3", status: "completed" },
   ]);
 
   const handleChangeStatus = (id: number) => {
@@ -55,9 +56,8 @@ export default function Home() {
           {data.map((taskObj) => (
             <TaskCard
               key={taskObj.id}
-              task={taskObj.task}
-              status={taskObj.status}
-              onClick={() => handleChangeStatus(taskObj.id)}
+              task={taskObj}
+              onClick={() => handleChangeStatus(taskObj.id!)}
             />
           ))}
         </div>
