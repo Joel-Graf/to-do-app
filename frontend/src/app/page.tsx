@@ -6,8 +6,10 @@ import { faPlusCircle } from "@fortawesome/free-solid-svg-icons";
 import TaskCard from "./components/TaskCard/TaskCard";
 import { useState } from "react";
 import { Task } from "./utils/definitions";
+import api from "./services/api";
 
 export default function Home() {
+  const [taskInput, setTaskInput] = useState<string>("");
   const [data, setData] = useState<Task[]>([
     { id: 1, description: "teste", status: "completed" },
     { id: 2, description: "teste2", status: "pending" },
@@ -25,6 +27,15 @@ export default function Home() {
           : task
       )
     );
+  };
+
+  const handleAddTask = (taskDescription: string) => {
+    const task = {
+      description: taskDescription,
+      checked: false,
+      createdAt: new Date(),
+    };
+    api.createTask(task);
   };
 
   return (
@@ -54,10 +65,16 @@ export default function Home() {
               padding: "1rem",
             }}
           >
-            <input type="text" style={{ flexGrow: 1 }} />
+            <input
+              value={taskInput}
+              onChange={(e) => setTaskInput(e.target.value)}
+              type="text"
+              style={{ flexGrow: 1 }}
+            />
             <FontAwesomeIcon
               icon={faPlusCircle}
               style={{ width: "1.6rem", height: "100%" }}
+              onClick={() => handleAddTask(taskInput)}
             />
           </div>
         </div>
