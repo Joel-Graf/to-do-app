@@ -34,13 +34,32 @@ export default function Home() {
       </header>
       <main
         style={{
-          width: "100%",
+          minWidth: "60%",
         }}
       >
-        <h2>Add Task</h2>
-        <div style={{ display: "flex" }}>
-          <input type="text" />
-          <FontAwesomeIcon icon={faPlusCircle} style={{ width: "1rem" }} />
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <h2>Add Task</h2>
+          <div
+            style={{
+              display: "flex",
+              width: "100%",
+              gap: "1rem",
+              padding: "1rem",
+            }}
+          >
+            <input type="text" style={{ flexGrow: 1 }} />
+            <FontAwesomeIcon
+              icon={faPlusCircle}
+              style={{ width: "1.6rem", height: "100%" }}
+            />
+          </div>
         </div>
 
         <div
@@ -50,7 +69,6 @@ export default function Home() {
             gap: "1rem",
             display: "flex",
             flexDirection: "column",
-            width: "60%",
           }}
         >
           {data.map((taskObj) => (
