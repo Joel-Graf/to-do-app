@@ -7,14 +7,27 @@ import TaskCard from "./components/TaskCard/TaskCard";
 import { useEffect, useState } from "react";
 import api from "./services/api";
 import { TaskDTO } from "./constants/types";
+import LoadingSpinner from "./components/TaskCard/UI/LoadingSpinner/LoadingSpinner";
 
 export default function Home() {
   const [taskInput, setTaskInput] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(false);
   const [data, setData] = useState<TaskDTO[]>([]);
 
   useEffect(() => {
-    api.getAllTasks().then((e) => setData(e));
+    refreshData();
   }, []);
+
+  const refreshData = () => {
+    setLoading(true);
+
+    return api
+      .getAllTasks()
+      .then((e) => setData(e))
+      .finally(() => {
+        setLoading(false);
+      });
+  };
 
   const handleChangeStatus = (id: number) => {
     setData((prevData) =>
@@ -35,7 +48,7 @@ export default function Home() {
       checked: false,
       createdAt: new Date(),
     };
-    api.createTask(task);
+    api.createTask(task).then(() => refreshData());
   };
 
   return (
@@ -88,13 +101,19 @@ export default function Home() {
             flexDirection: "column",
           }}
         >
-          {data.map((taskObj) => (
-            <TaskCard
-              key={taskObj.id}
-              task={taskObj}
-              onClick={() => handleChangeStatus(taskObj.id!)}
-            />
-          ))}
+          {loading ? (
+            <div style={{ height: "50vh" }}>
+              <LoadingSpinner />
+            </div>
+          ) : (
+            data.map((taskObj) => (
+              <TaskCard
+                key={taskObj.id}
+                task={taskObj}
+                onClick={() => handleChangeStatus(taskObj.id!)}
+              />
+            ))
+          )}
         </div>
       </main>
       <footer></footer>
