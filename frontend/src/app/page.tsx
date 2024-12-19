@@ -1,6 +1,5 @@
 "use client";
 
-import styles from "./page.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlusCircle } from "@fortawesome/free-solid-svg-icons";
 import TaskCard from "./components/TaskCard/TaskCard";
@@ -52,13 +51,23 @@ export default function Home() {
   };
 
   return (
-    <div className={styles.page}>
+    <div
+      style={{
+        width: "100vw",
+        height: "100vh",
+        padding: "2rem 4rem",
+        display: "flex",
+        alignItems: "center",
+        flexDirection: "column",
+        gap: "2rem",
+      }}
+    >
       <header>
         <h1>To-do-app ;)</h1>
       </header>
       <main
         style={{
-          minWidth: "60%",
+          minWidth: "40%",
         }}
       >
         <div
@@ -99,10 +108,13 @@ export default function Home() {
             gap: "1rem",
             display: "flex",
             flexDirection: "column",
+            minHeight: "50vh",
+            maxHeight: "70vh",
+            overflowY: "auto",
           }}
         >
           {loading ? (
-            <div style={{ height: "50vh" }}>
+            <div style={{ height: "40vh" }}>
               <LoadingSpinner />
             </div>
           ) : (
