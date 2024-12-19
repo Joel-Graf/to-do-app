@@ -1,20 +1,32 @@
 "use client";
 
-import styles from "./page.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlusCircle } from "@fortawesome/free-solid-svg-icons";
 import TaskCard from "./components/TaskCard/TaskCard";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import api from "./services/api";
 import { TaskDTO } from "./constants/types";
+import LoadingSpinner from "./components/TaskCard/UI/LoadingSpinner/LoadingSpinner";
 
 export default function Home() {
   const [taskInput, setTaskInput] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(false);
   const [data, setData] = useState<TaskDTO[]>([]);
+  const iconRef = useRef<SVGSVGElement>(null);
 
   useEffect(() => {
-    api.getAllTasks().then((e) => setData(e));
+    refreshData();
   }, []);
+
+  const refreshData = () => {
+    setLoading(true);
+    return api
+      .getAllTasks()
+      .then((e) => setData(e))
+      .finally(() => {
+        setLoading(false);
+      });
+  };
 
   const handleChangeStatus = (id: number) => {
     setData((prevData) =>
@@ -30,22 +42,33 @@ export default function Home() {
   };
 
   const handleAddTask = (taskDescription: string) => {
+    setTaskInput("");
     const task = {
       description: taskDescription,
       checked: false,
       createdAt: new Date(),
     };
-    api.createTask(task);
+    api.createTask(task).then(() => refreshData());
   };
 
   return (
-    <div className={styles.page}>
+    <div
+      style={{
+        width: "100vw",
+        height: "100vh",
+        padding: "2rem 4rem",
+        display: "flex",
+        alignItems: "center",
+        flexDirection: "column",
+        gap: "2rem",
+      }}
+    >
       <header>
         <h1>To-do-app ;)</h1>
       </header>
       <main
         style={{
-          minWidth: "60%",
+          minWidth: "40%",
         }}
       >
         <div
@@ -69,12 +92,35 @@ export default function Home() {
               value={taskInput}
               onChange={(e) => setTaskInput(e.target.value)}
               type="text"
-              style={{ flexGrow: 1 }}
+              style={{
+                flexGrow: 1,
+                boxShadow: "0 2px 4px 0px rgba(0,0,0,0.2)",
+              }}
             />
             <FontAwesomeIcon
               icon={faPlusCircle}
-              style={{ width: "1.6rem", height: "100%" }}
+              ref={iconRef}
+              style={{
+                width: "1.6rem",
+                height: "1.6rem",
+                color: "#28a745",
+                cursor: "pointer",
+                transition: "box-shadow 0.3s ease-in-out",
+                borderRadius: "50%",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                boxShadow: "0 2px 4px 0px rgba(0,0,0,0.2)",
+              }}
               onClick={() => handleAddTask(taskInput)}
+              onMouseEnter={() =>
+                (iconRef.current!.style.boxShadow =
+                  "0 4px 8px 0px rgba(0,0,0,0.2)")
+              }
+              onMouseLeave={() =>
+                (iconRef.current!.style.boxShadow =
+                  "0 2px 4px 0px rgba(0,0,0,0.2)")
+              }
             />
           </div>
         </div>
@@ -86,15 +132,24 @@ export default function Home() {
             gap: "1rem",
             display: "flex",
             flexDirection: "column",
+            minHeight: "50vh",
+            maxHeight: "70vh",
+            overflowY: "auto",
           }}
         >
-          {data.map((taskObj) => (
-            <TaskCard
-              key={taskObj.id}
-              task={taskObj}
-              onClick={() => handleChangeStatus(taskObj.id!)}
-            />
-          ))}
+          {loading ? (
+            <div style={{ height: "40vh" }}>
+              <LoadingSpinner />
+            </div>
+          ) : (
+            data.map((taskObj) => (
+              <TaskCard
+                key={taskObj.id}
+                task={taskObj}
+                onClick={() => handleChangeStatus(taskObj.id!)}
+              />
+            ))
+          )}
         </div>
       </main>
       <footer></footer>
