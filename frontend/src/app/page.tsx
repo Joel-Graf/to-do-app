@@ -3,7 +3,7 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlusCircle } from "@fortawesome/free-solid-svg-icons";
 import TaskCard from "./components/TaskCard/TaskCard";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import api from "./services/api";
 import { TaskDTO } from "./constants/types";
 import LoadingSpinner from "./components/TaskCard/UI/LoadingSpinner/LoadingSpinner";
@@ -12,6 +12,7 @@ export default function Home() {
   const [taskInput, setTaskInput] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
   const [data, setData] = useState<TaskDTO[]>([]);
+  const iconRef = useRef<SVGSVGElement>(null);
 
   useEffect(() => {
     refreshData();
@@ -19,7 +20,6 @@ export default function Home() {
 
   const refreshData = () => {
     setLoading(true);
-
     return api
       .getAllTasks()
       .then((e) => setData(e))
@@ -42,6 +42,7 @@ export default function Home() {
   };
 
   const handleAddTask = (taskDescription: string) => {
+    setTaskInput("");
     const task = {
       description: taskDescription,
       checked: false,
@@ -91,12 +92,35 @@ export default function Home() {
               value={taskInput}
               onChange={(e) => setTaskInput(e.target.value)}
               type="text"
-              style={{ flexGrow: 1 }}
+              style={{
+                flexGrow: 1,
+                boxShadow: "0 2px 4px 0px rgba(0,0,0,0.2)",
+              }}
             />
             <FontAwesomeIcon
               icon={faPlusCircle}
-              style={{ width: "1.6rem", height: "100%" }}
+              ref={iconRef}
+              style={{
+                width: "1.6rem",
+                height: "1.6rem",
+                color: "#28a745",
+                cursor: "pointer",
+                transition: "box-shadow 0.3s ease-in-out",
+                borderRadius: "50%",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                boxShadow: "0 2px 4px 0px rgba(0,0,0,0.2)",
+              }}
               onClick={() => handleAddTask(taskInput)}
+              onMouseEnter={() =>
+                (iconRef.current!.style.boxShadow =
+                  "0 4px 8px 0px rgba(0,0,0,0.2)")
+              }
+              onMouseLeave={() =>
+                (iconRef.current!.style.boxShadow =
+                  "0 2px 4px 0px rgba(0,0,0,0.2)")
+              }
             />
           </div>
         </div>
