@@ -1,17 +1,17 @@
 "use client";
 
 import "./styles.css";
-import { Task } from '../../utils/definitions';
+import { TaskDTO } from "@/app/constants/types";
 
 interface TaskCardProps {
-  task: Task;
+  task: TaskDTO;
   onClick: () => void;
 }
 
 export default function TaskCard({ task, onClick }: TaskCardProps) {
   return (
     <div className="card" onClick={onClick}>
-      <input type="checkbox" checked={task.status === "completed"} readOnly />
+      <input type="checkbox" checked={task.checked} readOnly />
       <p>{task.description}</p>
     </div>
   );

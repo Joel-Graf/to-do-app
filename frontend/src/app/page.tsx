@@ -4,17 +4,17 @@ import styles from "./page.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlusCircle } from "@fortawesome/free-solid-svg-icons";
 import TaskCard from "./components/TaskCard/TaskCard";
-import { useState } from "react";
-import { Task } from "./utils/definitions";
+import { useEffect, useState } from "react";
 import api from "./services/api";
+import { TaskDTO } from "./constants/types";
 
 export default function Home() {
   const [taskInput, setTaskInput] = useState<string>("");
-  const [data, setData] = useState<Task[]>([
-    { id: 1, description: "teste", status: "completed" },
-    { id: 2, description: "teste2", status: "pending" },
-    { id: 3, description: "teste3", status: "completed" },
-  ]);
+  const [data, setData] = useState<TaskDTO[]>([]);
+
+  useEffect(() => {
+    api.getAllTasks().then((e) => setData(e));
+  }, []);
 
   const handleChangeStatus = (id: number) => {
     setData((prevData) =>
@@ -22,7 +22,7 @@ export default function Home() {
         task.id === id
           ? {
               ...task,
-              status: task.status === "completed" ? "pending" : "completed",
+              checked: !task.checked,
             }
           : task
       )
