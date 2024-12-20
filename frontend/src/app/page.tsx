@@ -1,11 +1,13 @@
 "use client";
 
 import { useEffect, useState } from "react";
-
 import api from "./services/api";
 import { TaskDTO } from "./constants/types";
 import TaskForm from "./components/TaskForm/TaskForm";
 import TaskList from "./components/TaskList/TaskList";
+import styles from "./Home.module.css";
+import Footer from "./components/UI/Footer/Footer";
+import Header from "./components/UI/Header/Header";
 
 interface TaskFormData {
   description: string;
@@ -65,22 +67,10 @@ export default function Home() {
   };
 
   return (
-    <div
-      style={{
-        width: "100vw",
-        height: "100vh",
-        padding: "2rem 4rem",
-        display: "flex",
-        alignItems: "center",
-        flexDirection: "column",
-        gap: "2rem",
-      }}
-    >
-      <header>
-        <h1>To-do-app ;)</h1>
-      </header>
+    <div className={styles.container}>
+      <Header />
 
-      <main style={{ minWidth: "50%", maxWidth: "80%" }}>
+      <main className={styles.main}>
         <TaskForm
           taskInput={taskInput}
           setTaskInput={setTaskInput}
@@ -95,7 +85,7 @@ export default function Home() {
         />
       </main>
 
-      <footer></footer>
+      <Footer />
     </div>
   );
 }

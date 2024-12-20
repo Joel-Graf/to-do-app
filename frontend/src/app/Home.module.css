@@ -1,0 +1,15 @@
+.container {
+  width: 100vw;
+  height: 100vh;
+  padding: 1rem 2rem;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.main {
+  flex-grow: 1;
+  min-width: 50%;
+  max-width: 80%;
+}
