@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { TaskDTO } from "@/app/constants/types";
 import styles from "./TaskCard.module.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faFloppyDisk } from "@fortawesome/free-solid-svg-icons";
 
 interface TaskCardProps {
   task: TaskDTO;
@@ -59,15 +61,18 @@ export default function TaskCard({ task, onClick, onUpdate }: TaskCardProps) {
         className={styles.taskCheckbox}
       />
       {isEditing ? (
-        <input
-          type="text"
-          value={editedDescription}
-          onChange={(e) => setEditedDescription(e.target.value)}
-          onBlur={handleBlur}
-          onKeyDown={handleKeyDown}
-          className={styles.taskInput}
-          autoFocus
-        />
+        <div className={styles.editingContainer}>
+          <input
+            type="text"
+            value={editedDescription}
+            onChange={(e) => setEditedDescription(e.target.value)}
+            onBlur={handleBlur}
+            onKeyDown={handleKeyDown}
+            className={styles.taskInput}
+            autoFocus
+          />
+          <FontAwesomeIcon icon={faFloppyDisk} className={styles.saveIcon} />
+        </div>
       ) : (
         <p className={styles.taskText}>{task.description}</p>
       )}

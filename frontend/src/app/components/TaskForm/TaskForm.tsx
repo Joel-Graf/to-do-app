@@ -1,6 +1,5 @@
 import { faPlusCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useRef } from "react";
 import styles from "./TaskForm.module.css";
 
 interface TaskFormProps {
@@ -10,8 +9,6 @@ interface TaskFormProps {
 }
 
 const TaskForm = ({ taskInput, setTaskInput, onAddTask }: TaskFormProps) => {
-  const iconRef = useRef<SVGSVGElement>(null);
-
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter" && taskInput.trim() !== "") {
       onAddTask(taskInput.trim());
@@ -30,18 +27,11 @@ const TaskForm = ({ taskInput, setTaskInput, onAddTask }: TaskFormProps) => {
       <FontAwesomeIcon
         className={styles.icon}
         icon={faPlusCircle}
-        ref={iconRef}
         onClick={() => {
           if (taskInput.trim() !== "") {
             onAddTask(taskInput);
           }
         }}
-        onMouseEnter={() =>
-          (iconRef.current!.style.boxShadow = "0 4px 8px 0px rgba(0,0,0,0.2)")
-        }
-        onMouseLeave={() =>
-          (iconRef.current!.style.boxShadow = "0 2px 4px 0px rgba(0,0,0,0.2)")
-        }
       />
     </div>
   );
