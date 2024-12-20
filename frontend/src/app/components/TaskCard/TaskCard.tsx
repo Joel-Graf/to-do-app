@@ -17,7 +17,7 @@ export default function TaskCard({ task, onClick, onUpdate }: TaskCardProps) {
     const timeout = setTimeout(() => {
       onClick();
       setClickTimeout(null);
-    }, 150);
+    }, 200);
     setClickTimeout(timeout);
   };
 
@@ -28,7 +28,7 @@ export default function TaskCard({ task, onClick, onUpdate }: TaskCardProps) {
 
   const handleBlur = () => {
     setIsEditing(false);
-    if (editedDescription != task.description) {
+    if (editedDescription !== task.description) {
       onUpdate({ ...task, description: editedDescription });
     }
   };
@@ -79,16 +79,19 @@ export default function TaskCard({ task, onClick, onUpdate }: TaskCardProps) {
           onBlur={handleBlur}
           onKeyDown={handleKeyDown}
           style={{
+            margin: 0,
             flexGrow: 1,
+            lineHeight: "1.5",
+            fontSize: "1rem",
+            boxSizing: "border-box",
+            height: "1.5rem",
             padding: "0.25rem",
+            backgroundColor: "transparent",
             border: "1px solid #28a745",
             borderRadius: "4px",
-            fontSize: "1rem",
-            fontFamily: "inherit",
-            lineHeight: "1.5",
-            height: "1.5rem",
-            boxSizing: "border-box",
-            backgroundColor: "transparent",
+            whiteSpace: "nowrap",
+            overflow: "hidden",
+            textOverflow: "ellipsis",
           }}
           autoFocus
         />

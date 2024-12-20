@@ -88,6 +88,7 @@ export default function Home() {
       <main
         style={{
           minWidth: "40%",
+          maxWidth: "80%",
         }}
       >
         <div
@@ -171,6 +172,7 @@ export default function Home() {
                   justifyContent: "center",
                   alignItems: "center",
                   gap: "1rem",
+                  padding: "0 1rem",
                 }}
               >
                 <TaskCard
