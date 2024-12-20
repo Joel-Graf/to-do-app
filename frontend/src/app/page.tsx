@@ -1,7 +1,7 @@
 "use client";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlusCircle } from "@fortawesome/free-solid-svg-icons";
+import { faPlusCircle, faTrash } from "@fortawesome/free-solid-svg-icons";
 import TaskCard from "./components/TaskCard/TaskCard";
 import { useEffect, useState, useRef } from "react";
 import api from "./services/api";
@@ -28,17 +28,36 @@ export default function Home() {
       });
   };
 
-  const handleChangeStatus = (id: number) => {
-    setData((prevData) =>
-      prevData.map((task) =>
-        task.id === id
-          ? {
-              ...task,
-              checked: !task.checked,
+  const handleUpdateTask = (updatedTask: TaskDTO) => {
+    setLoading(true);
+    return api
+      .updateTask(updatedTask.id!, updatedTask)
+      .then(() => {
+        setData((data) =>
+          data.map((task) => {
+            if (task.id == updatedTask.id) {
+              return updatedTask;
+            } else {
+              return task;
             }
-          : task
-      )
-    );
+          })
+        );
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  };
+
+  const handleDelete = (id: number) => {
+    setLoading(true);
+    return api
+      .deleteTask(id)
+      .then(() => {
+        setData((data) => data.filter((task) => task.id != id));
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   };
 
   const handleAddTask = (taskDescription: string) => {
@@ -135,6 +154,7 @@ export default function Home() {
             minHeight: "50vh",
             maxHeight: "70vh",
             overflowY: "auto",
+            width: "100%",
           }}
         >
           {loading ? (
@@ -143,11 +163,41 @@ export default function Home() {
             </div>
           ) : (
             data.map((taskObj) => (
-              <TaskCard
+              <div
                 key={taskObj.id}
-                task={taskObj}
-                onClick={() => handleChangeStatus(taskObj.id!)}
-              />
+                style={{
+                  width: "100%",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  gap: "1rem",
+                }}
+              >
+                <TaskCard
+                  task={taskObj}
+                  onClick={() => {
+                    handleUpdateTask({ ...taskObj, checked: !taskObj.checked });
+                  }}
+                  onUpdate={(taskObj) => {
+                    handleUpdateTask(taskObj);
+                  }}
+                />
+
+                <FontAwesomeIcon
+                  icon={faTrash}
+                  ref={iconRef}
+                  style={{
+                    width: "1.2rem",
+                    height: "1.2rem",
+                    color: "rgba(0,0,0,0.6)",
+                    cursor: "pointer",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                  onClick={() => handleDelete(taskObj.id!)}
+                />
+              </div>
             ))
           )}
         </div>
