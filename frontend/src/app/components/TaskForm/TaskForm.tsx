@@ -12,18 +12,30 @@ interface TaskFormProps {
 const TaskForm = ({ taskInput, setTaskInput, onAddTask }: TaskFormProps) => {
   const iconRef = useRef<SVGSVGElement>(null);
 
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter" && taskInput.trim() !== "") {
+      onAddTask(taskInput.trim());
+    }
+  };
+
   return (
     <div className={styles.taskForm}>
       <input
         value={taskInput}
         onChange={(e) => setTaskInput(e.target.value)}
         type="text"
+        placeholder="Add a new task..."
+        onKeyDown={handleKeyDown}
       />
       <FontAwesomeIcon
         className={styles.icon}
         icon={faPlusCircle}
         ref={iconRef}
-        onClick={() => onAddTask(taskInput)}
+        onClick={() => {
+          if (taskInput.trim() !== "") {
+            onAddTask(taskInput);
+          }
+        }}
         onMouseEnter={() =>
           (iconRef.current!.style.boxShadow = "0 4px 8px 0px rgba(0,0,0,0.2)")
         }

@@ -9,7 +9,23 @@
 
 .taskForm input {
   flex-grow: 1;
-  box-shadow: 0 2px 4px 0px rgba(0, 0, 0, 0.2);
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: none;
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.taskForm input::placeholder {
+  color: #aaa;
+  font-style: italic;
+}
+
+.taskForm input:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
 }
 
 .taskForm .icon {
@@ -17,7 +33,7 @@
   height: 1.6rem;
   color: #28a745;
   cursor: pointer;
-  transition: box-shadow 0.3s ease-in-out;
+  transition: box-shadow 0.3s ease-in-out, transform 0.3s ease-in-out;
   border-radius: 50%;
   display: flex;
   justify-content: center;
@@ -27,4 +43,5 @@
 
 .taskForm .icon:hover {
   box-shadow: 0 4px 8px 0px rgba(0, 0, 0, 0.2);
+  transform: scale(1.1);
 }
