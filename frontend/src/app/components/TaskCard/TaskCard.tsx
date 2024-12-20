@@ -1,10 +1,11 @@
 import { useState } from "react";
 import { TaskDTO } from "@/app/constants/types";
+import styles from "./TaskCard.module.css";
 
 interface TaskCardProps {
   task: TaskDTO;
   onClick: () => void;
-  onUpdate: (updatedTask: TaskDTO) => void; // Function to update the task
+  onUpdate: (updatedTask: TaskDTO) => void;
 }
 
 export default function TaskCard({ task, onClick, onUpdate }: TaskCardProps) {
@@ -44,32 +45,13 @@ export default function TaskCard({ task, onClick, onUpdate }: TaskCardProps) {
     <div
       onClick={handleSingleClick}
       onDoubleClick={handleDoubleClick}
-      style={{
-        flexGrow: 1,
-        display: "flex",
-        alignItems: "center",
-        gap: "1rem",
-        padding: "0.75rem",
-        border: "1px solid #ddd",
-        borderRadius: "4px",
-        backgroundColor: task.checked ? "#f8f9fa" : "#fff",
-        cursor: "pointer",
-        transition: "all 0.2s ease-in-out",
-        ...(task.checked && {
-          textDecoration: "line-through",
-          color: "#28a745",
-        }),
-      }}
+      className={`${styles.taskCard} ${task.checked ? styles.checked : ""}`}
     >
       <input
         type="checkbox"
         checked={task.checked}
         readOnly
-        style={{
-          width: "1.5rem",
-          height: "1.5rem",
-          accentColor: "#28a745",
-        }}
+        className={styles.taskCheckbox}
       />
       {isEditing ? (
         <input
@@ -78,34 +60,11 @@ export default function TaskCard({ task, onClick, onUpdate }: TaskCardProps) {
           onChange={(e) => setEditedDescription(e.target.value)}
           onBlur={handleBlur}
           onKeyDown={handleKeyDown}
-          style={{
-            margin: 0,
-            flexGrow: 1,
-            lineHeight: "1.5",
-            fontSize: "1rem",
-            boxSizing: "border-box",
-            height: "1.5rem",
-            padding: "0.25rem",
-            backgroundColor: "transparent",
-            border: "1px solid #28a745",
-            borderRadius: "4px",
-            whiteSpace: "nowrap",
-            overflow: "hidden",
-            textOverflow: "ellipsis",
-          }}
+          className={styles.taskInput}
           autoFocus
         />
       ) : (
-        <p
-          style={{
-            margin: 0,
-            flexGrow: 1,
-            lineHeight: "1.5",
-            fontSize: "1rem",
-          }}
-        >
-          {task.description}
-        </p>
+        <p className={styles.taskText}>{task.description}</p>
       )}
     </div>
   );

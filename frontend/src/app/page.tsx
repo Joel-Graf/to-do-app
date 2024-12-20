@@ -6,7 +6,7 @@ import TaskCard from "./components/TaskCard/TaskCard";
 import { useEffect, useState, useRef } from "react";
 import api from "./services/api";
 import { TaskDTO } from "./constants/types";
-import LoadingSpinner from "./components/TaskCard/UI/LoadingSpinner/LoadingSpinner";
+import LoadingSpinner from "./components/UI/LoadingSpinner/LoadingSpinner";
 
 export default function Home() {
   const [taskInput, setTaskInput] = useState<string>("");
@@ -87,7 +87,7 @@ export default function Home() {
       </header>
       <main
         style={{
-          minWidth: "40%",
+          minWidth: "50%",
           maxWidth: "80%",
         }}
       >
@@ -193,9 +193,6 @@ export default function Home() {
                     height: "1.2rem",
                     color: "rgba(0,0,0,0.6)",
                     cursor: "pointer",
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
                   }}
                   onClick={() => handleDelete(taskObj.id!)}
                 />

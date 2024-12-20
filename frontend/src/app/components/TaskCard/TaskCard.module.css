@@ -1,0 +1,51 @@
+.taskCard {
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.75rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background-color: #fff;
+  cursor: pointer;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
+  transition: all 0.2s ease-in-out;
+}
+
+.taskCard:hover {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+}
+
+.taskCard.checked {
+  text-decoration: line-through;
+  color: #28a745;
+}
+
+.taskCheckbox {
+  width: 1.5rem;
+  height: 1.5rem;
+  accent-color: #28a745;
+}
+
+.taskInput {
+  margin: 0;
+  flex-grow: 1;
+  line-height: 1.5;
+  font-size: 1rem;
+  box-sizing: border-box;
+  height: 1.5rem;
+  padding: 0.25rem;
+  background-color: transparent;
+  border: 1px solid #28a745;
+  border-radius: 4px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.taskText {
+  margin: 0;
+  flex-grow: 1;
+  line-height: 1.5;
+  font-size: 1rem;
+}
