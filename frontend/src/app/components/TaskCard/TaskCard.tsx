@@ -14,16 +14,21 @@ export default function TaskCard({ task, onClick, onUpdate }: TaskCardProps) {
   const [clickTimeout, setClickTimeout] = useState<NodeJS.Timeout | null>(null);
 
   const handleSingleClick = () => {
-    if (clickTimeout) clearTimeout(clickTimeout);
+    if (clickTimeout) {
+      clearTimeout(clickTimeout);
+      setClickTimeout(null);
+    }
     const timeout = setTimeout(() => {
       onClick();
-      setClickTimeout(null);
     }, 200);
     setClickTimeout(timeout);
   };
 
   const handleDoubleClick = () => {
-    if (clickTimeout) clearTimeout(clickTimeout);
+    if (clickTimeout) {
+      clearTimeout(clickTimeout);
+      setClickTimeout(null);
+    }
     setIsEditing(true);
   };
 
