@@ -10,7 +10,7 @@ class Api {
 
   constructor() {
     this.instance = axios.create({
-      baseURL: process.env.BACKEND_API_BASE_URL,
+      baseURL: "https://to-do-app-production-7d56.up.railway.app/api",
       headers: {
         "Content-Type": ContentType.Json,
       },
