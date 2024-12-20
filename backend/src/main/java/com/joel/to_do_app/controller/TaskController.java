@@ -24,26 +24,43 @@ import com.joel.to_do_app.service.TaskService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
+/**
+ * TaskController handles the REST API endpoints for Task operations.
+ */
 @RestController
 @RequestMapping("/api/task")
 @RequiredArgsConstructor
-@CrossOrigin(origins = "https://to-do-app-seven-ashen.vercel.app")
+@CrossOrigin(origins = {"http://to-do-app-seven-ashen.vercel.app", "https://localhost:3030"})
 public class TaskController {
 
+    // TaskService instance to handle business logic
     private final TaskService taskService;
 
+    /**
+     * Endpoint to create a new task.
+     *
+     * @param taskDTO Task data transfer object containing task details
+     * @return ResponseEntity containing the created TaskDTO and HTTP status CREATED
+     */
     @PostMapping
     public ResponseEntity<TaskDTO> createTask(@Valid @RequestBody TaskDTO taskDTO) {
         try {
+            // Convert DTO to entity and save it
             Task task = taskService.toEntity(taskDTO);
             Task savedTask = taskService.createTask(task);
             TaskDTO savedTaskDTO = taskService.toDTO(savedTask);
             return new ResponseEntity<>(savedTaskDTO, HttpStatus.CREATED);
         } catch (Exception e) {
+            // Handle unexpected exceptions
             throw new InternalServerErrorException("An error occurred while creating the task: " + e.getMessage());
         }
     }
 
+    /**
+     * Endpoint to retrieve all tasks.
+     *
+     * @return ResponseEntity containing a list of TaskDTOs and HTTP status OK
+     */
     @GetMapping
     public ResponseEntity<List<TaskDTO>> getAllTasks() {
         try {
@@ -55,6 +72,12 @@ public class TaskController {
         }
     }
 
+    /**
+     * Endpoint to retrieve a task by its ID.
+     *
+     * @param id ID of the task to fetch
+     * @return ResponseEntity containing the TaskDTO and HTTP status OK
+     */
     @GetMapping("/{id}")
     public ResponseEntity<TaskDTO> getTaskById(@PathVariable Long id) {
         try {
@@ -68,6 +91,13 @@ public class TaskController {
         }
     }
 
+    /**
+     * Endpoint to update a task.
+     *
+     * @param id      ID of the task to update
+     * @param taskDTO TaskDTO containing updated task details
+     * @return ResponseEntity containing the updated TaskDTO and HTTP status OK
+     */
     @PutMapping("/{id}")
     public ResponseEntity<TaskDTO> updateTask(@PathVariable Long id, @Valid @RequestBody TaskDTO taskDTO) {
         try {
@@ -82,6 +112,12 @@ public class TaskController {
         }
     }
 
+    /**
+     * Endpoint to delete a task by its ID.
+     *
+     * @param id ID of the task to delete
+     * @return ResponseEntity with no content status if task is deleted successfully
+     */
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteTask(@PathVariable Long id) {
         try {
