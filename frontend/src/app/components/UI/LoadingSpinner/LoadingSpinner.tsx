@@ -1,6 +1,7 @@
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSpinner } from "@fortawesome/free-solid-svg-icons";
+import styles from "./LoadingSpinner.module.css";
 
 interface LoadingSpinnerProps {
   fontSize?: number;
@@ -12,16 +13,12 @@ const LoadingSpinner = ({ fontSize = 60 }: LoadingSpinnerProps) => {
   };
 
   return (
-    <div
-      style={{
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        height: "100%",
-        width: "100%",
-      }}
-    >
-      <FontAwesomeIcon icon={faSpinner} spin style={spinnerStyle} />
+    <div className={styles.spinnerContainer}>
+      <FontAwesomeIcon
+        icon={faSpinner}
+        className={styles.spinnerIcon}
+        style={spinnerStyle}
+      />
     </div>
   );
 };
