@@ -1,0 +1,30 @@
+.taskForm {
+  display: flex;
+  width: 100%;
+  gap: 1rem;
+  padding: 1rem;
+  justify-content: center;
+  align-items: center;
+}
+
+.taskForm input {
+  flex-grow: 1;
+  box-shadow: 0 2px 4px 0px rgba(0, 0, 0, 0.2);
+}
+
+.taskForm .icon {
+  width: 1.6rem;
+  height: 1.6rem;
+  color: #28a745;
+  cursor: pointer;
+  transition: box-shadow 0.3s ease-in-out;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 2px 4px 0px rgba(0, 0, 0, 0.2);
+}
+
+.taskForm .icon:hover {
+  box-shadow: 0 4px 8px 0px rgba(0, 0, 0, 0.2);
+}
